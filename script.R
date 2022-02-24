@@ -1,3 +1,4 @@
 library(rtweet)
 
- rtweet::post_tweet(status = "Test" )
+rtweet::post_tweet(status = "Test")
+
