@@ -1,0 +1,49 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Workflow
+
+# Controls when the workflow will run
+on:
+  push:
+    branches:
+      - main
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  traitement_donnees:
+    # The type of runner that the job will run on
+    runs-on: macos-latest
+    env:
+      T_API_KEY: ${{ secrets.T_API_KEY }}
+      T_API_SECRET: ${{ secrets.T_API_SECRET }}
+      T_ACCESS_TOKEN: ${{ secrets.T_ACCESS_TOKEN }}
+      T_ACCESS_SECRET: ${{ secrets.T_ACCESS_SECRET }}
+      TWITTER_BEARER_TOKEN: ${{ secrets.BEARER }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
+    # Load repo and install R
+    steps:
+    - uses: actions/checkout@master
+    - uses: r-lib/actions/setup-r@master
+
+     # Set-up R
+    - name: Install packages
+      run: |
+        install.packages(#c("ragg", "tidyverse", "sf","sysfonts", "showtext", "remotes", "usethis"),type="binary")
+        remotes::install_github("ropensci/rtweet")
+      shell: Rscript {0}
+
+    # Run R script
+    - name: script_base
+      run: Rscript script.R
+      
+ # Add new files in data folder, commit along with other modified files, push
+    - name: Commit files
+      run: |
+        git config --local user.name actions-user
+        git config --local user.email "actions@github.com"
+        git add data/*
+        git commit -am "GH ACTION OK $(date)"
+        git push origin main
+      env:
+        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+        username: github-actions
