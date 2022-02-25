@@ -9,3 +9,5 @@ tweetbot_token <- rtweet::rtweet_bot(
 rtweet::auth_as(tweetbot_token)
 rtweet::post_tweet(status = "Test",token=tweetbot_token)
 
+
+post_message(text = "coucou",user = "humeursdevictor",token = tweetbot_token)
