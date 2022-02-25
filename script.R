@@ -7,5 +7,5 @@ tweetbot_token <- rtweet::rtweet_bot(
   access_secret = Sys.getenv("T_ACCESS_SECRET")
 )
 rtweet::auth_as(tweetbot_token)
-rtweet::post_tweet(status = "Test")
+rtweet::post_tweet(status = "Test",token=tweetbot_token)
 
