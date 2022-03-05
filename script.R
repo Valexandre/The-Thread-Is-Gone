@@ -11,3 +11,13 @@ rtweet::post_tweet(status = "Test",token=tweetbot_token)
 
 
 post_message(text = "coucou",user = "humeursdevictor",token = tweetbot_token)
+
+###########
+#Serie 1 : où sont nés les XXXXX décédé.e.s dans un département entre 2015 et 2021 ?
+
+
+###########
+#Serie 2 A: quelle est la carte des salariés du secteur XXXX?
+#Serie 2 B: quelle est la carte des établissements du secteur XXXX?
+
+###########
