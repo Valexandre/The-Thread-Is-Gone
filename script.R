@@ -26,8 +26,9 @@ Donnees<-tibble(quand=c("matin","après-midi"),
                 tempk=c(DonneesVilleU[[2]][[1]][["sol"]],DonneesVilleU[[2]][[13]][["sol"]]),
                 pluie=c(DonneesVilleU[[2]][[3]],DonneesVilleU[[2]][[15]] ))
 Donnees<-Donnees%>%mutate(tempC=tempk-273.15)
-rtweet::post_message(user = "humeursdevictor",token = tweetbot_token, text = paste0("Ce matin, température à 7h : ",Donnees$tempC[1],"°C, et ",Donnees$pluie[1],"mm de pluie sur 3h.
-Cet après-midi : ",Donnees$tempC[2],"°C à 16h et ",Donnees$pluie[2],"mm de pluie"))
+
+rtweet::post_message(user = "humeursdevictor",token = tweetbot_token, text = paste0("Ce matin, température à 7h : ",round(Donnees$tempC[1],2),"°C, et ",round(Donnees$pluie[1],1),"mm de pluie sur 3h.
+Cet après-midi : ",round(Donnees$tempC[2],2),"°C à 16h et ",round(Donnees$pluie[2],1),"mm de pluie"))
 
 
 
