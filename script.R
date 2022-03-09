@@ -48,7 +48,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
   ggsave(paste0(Sys.Date(),"_Carte_",PrenomS,"_",DepDeDeces,".png"),Carte,device = "png",dpi = 72,width = 14,height=14,units = "in")
 }
   
-sortunecartedesdecesparprenom(sample(NombreDecesParPrenom$Prenom[NombreDecesParPrenom$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
 
 ###########
 #Serie 2 A: quelle est la carte des salariés du secteur XXXX?
