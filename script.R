@@ -38,7 +38,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     geom_sf(aes(fill=PartDuPrenomNesDansDep),colour="lightgray")+
     geom_sf(data=DEPS, fill=NA,aes(colour=INSEE_DEP==DepDeDeces))+
     scale_colour_manual("",values=c("lightgray","black"))+
-    theme_map()+
+    theme_void()+
     labs(title=str_wrap(paste0("Où sont nées les personnes prénommées ",str_to_title(PrenomS)," décédées ",unique(tmpbdd$LieuDep) ," entre 2019 et 2021?"),40),
          subtitle=str_wrap(paste0("Part des ",sum(tmpbdd$Nombre)," personnes décédées ",unique(tmpbdd$LieuDep), " selon leur département de naissance."),65),  caption="Données Insee, calculs & carte V.Alexandre @humeursdevictor")+
     scale_fill_stepsn("", colours=CouleursBornes,breaks=c(0,2.5,5,7.5,10,20,30,50,100),limits=c(0,100),labels = function(x) {x}, show.limits = F,values = c(0/100,2.5/100,5/100,7.5/100,10/100,20/100,30/100,50/100,1))+
