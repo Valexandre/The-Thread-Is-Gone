@@ -16,8 +16,8 @@ rtweet::auth_as(tweetbot_token)
 #Serie 1 : où sont nés les XXXXX décédé.e.s dans un département entre 2015 et 2021 ?
 
 DEPS<-st_read("https://raw.githubusercontent.com/Valexandre/france-geojson/master/Deps_PPC_DOMTOM_BAS_4326_V2.geojson")
-DEPS<-DEPS%>%filter(INSEE_DEP==INSEE_DEP2)%>%
-  filter(substr(INSEE_DEP2,1,2)!=97)
+DEPS<-DEPS%>%dplyr::filter(INSEE_DEP==INSEE_DEP2)%>%
+  dplyr::filter(substr(INSEE_DEP,1,2)!=97)
 DEPS$INSEE_DEP[DEPS$INSEE_DEP=="2B"]<-"2A"
 NomsDep<- read_csv("data/TouslesLibellesDesDepartements.txt")
 NomsDep$LieuDep[NomsDep$dep=="2A"]<-"en Corse"
@@ -27,8 +27,8 @@ PrenomsDecedesParDepSexe<-readRDS("data/PrenomsDecedesParDepSexe.Rdata")
 
 sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
   tmpbdd<-PrenomsDecedesParDepSexe%>%
-    filter(Prenom==PrenomS)%>%
-    filter(DDD==DepDeDeces)%>%
+    dplyr::filter(Prenom==PrenomS)%>%
+    dplyr::filter(DDD==DepDeDeces)%>%
     left_join(NomsDep,by=c("DDD"="dep"))
   
   Carte<-tmpbdd%>%
