@@ -3,6 +3,7 @@ library(sf)
 library(rtweet)
 library(sysfonts)
 library(jsonlite)
+library(ragg)
 # On s'enregistre
 tweetbot_token <- rtweet::rtweet_bot(
   api_key = Sys.getenv("T_API_KEY"),
