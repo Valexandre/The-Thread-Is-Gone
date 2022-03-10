@@ -12,8 +12,8 @@ tweetbot_token <- rtweet::rtweet_bot(
   access_secret = Sys.getenv("T_ACCESS_SECRET")
 )
 rtweet::auth_as(tweetbot_token)
-function(x){ as.character( gsub("\\.",",",as.character(x)))}
-function(x,y) !(x %in% y)
+Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
+%!in% <- function(x,y) !(x %in% y)
 
 
 ###########
