@@ -13,7 +13,7 @@ tweetbot_token <- rtweet::rtweet_bot(
 )
 rtweet::auth_as(tweetbot_token)
 Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
-%!in% <- function(x,y) !(x %in% y)
+`%!in%` <- function(x,y) !(x %in% y)
 
 
 ###########
