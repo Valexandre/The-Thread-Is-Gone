@@ -12,6 +12,9 @@ tweetbot_token <- rtweet::rtweet_bot(
   access_secret = Sys.getenv("T_ACCESS_SECRET")
 )
 rtweet::auth_as(tweetbot_token)
+function(x){ as.character( gsub("\\.",",",as.character(x)))}
+function(x,y) !(x %in% y)
+
 
 ###########
 #Serie 1 : où sont nés les XXXXX décédé.e.s dans un département entre 2015 et 2021 ?
