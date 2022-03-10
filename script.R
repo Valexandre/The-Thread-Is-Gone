@@ -45,7 +45,9 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     guides(colour=FALSE,fill=guide_colorsteps(barwidth = 30, barheight = 2,even.steps = T))+
     theme(legend.position="top",plot.title.position = "plot",
           text=element_text(family = "Corbel",size=24))
-  ggsave(paste0(Sys.Date(),"_Carte_",PrenomS,"_",DepDeDeces,".png"),Carte,device = "png",dpi = 72,width = 14,height=14,units = "in")
+  agg_png(paste0(Sys.Date(),"_Carte_",PrenomS,"_",DepDeDeces,".png"), width = 900, height = 900, res = 144)
+  plot(Carte)
+  invisible(dev.off())
 }
   
 sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
