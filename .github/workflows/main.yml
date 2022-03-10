@@ -38,4 +38,15 @@ jobs:
     # Run R script
     - name: Lance le script
       run: Rscript script.R
-  
+      
+ # Ajout des fichiers dans le dossier
+    - name: Commit files
+      run: |
+        git config --local user.name actions-user
+        git config --local user.email "actions@github.com"
+        git add data/*
+        git commit -am "GH ACTION OK $(date)"
+        git push origin main
+      env:
+        REPO_KEY: ${{secrets.GITHUB_TOKEN}}
+        username: github-actions
