@@ -62,7 +62,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
   
   TW1<-paste0("Entre 2019 et 2021, près de ",round(TotalDecesPrenom$TotalPrenom,-2)," personnes prénommées ",str_to_title(PrenomS)," sont mortes en France. ", sum(tmpbdd$Nombre)," ",str_to_title(PrenomS)," sont ",ifelse(tmpbdd$Sexe[1]=="1","décédés ","décédées "),tmpbdd$LieuDep[1],". ",Virg(round(tmpbdd$PartDuPrenomNesDansDep[1])),"% d'entre ", ifelse(tmpbdd$Sexe[1]=="1","eux y étaient nés.","elles y étaient nées."))
   
-  rtweet::post_tweet(statut=TW1,media = NomCarte,
+  rtweet::post_tweet(status=TW1,media = NomCarte,
                      media_alt_text = paste0("Carte des ",str_to_title(PrenomS)," ",ifelse(tmpbdd$Sexe[1]=="1","décédés ","décédées "),tmpbdd$LieuDep[1]," entre 2019 et 2021."), token = tweetbot_token)
 }
   
