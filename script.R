@@ -54,7 +54,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     scale_fill_stepsn("", colours=CouleursBornes,breaks=c(0,2.5,5,7.5,10,20,30,50,100),limits=c(0,100),labels = function(x) {x}, show.limits = F,values = c(0/100,2.5/100,5/100,7.5/100,10/100,20/100,30/100,50/100,1))+
     guides(colour=FALSE,fill=guide_colorsteps(barwidth = 30, barheight = 2,even.steps = T))+
     theme(legend.position="top",plot.title.position = "plot",
-          text=element_text(family = "Corbel",size=24))
+          text=element_text(family = "Corbel",size=12))
   NomCarte<-paste0("img/",Sys.Date(),"_Carte_",PrenomS,"_",DepDeDeces,".png")
   agg_png(NomCarte, width = 900, height = 900, res = 144)
   plot(Carte)
