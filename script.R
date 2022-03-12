@@ -66,7 +66,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
                      media_alt_text = paste0("Carte des ",str_to_title(PrenomS)," ",ifelse(tmpbdd$Sexe[1]=="1","décédés ","décédées "),tmpbdd$LieuDep[1]," entre 2019 et 2021."), token = tweetbot_token)
 }
   
-#sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
 
 ##########
 #Serie 1 bis
@@ -98,24 +98,29 @@ Graph<-BDDDCD%>%ggplot()+
   geom_text(data=Enfants,aes(x=nombre,y=annais,label=abs(nombre)),colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust=2)+
   theme_minimal()+scale_y_reverse()+scale_x_continuous(labels=abs)+
   labs(title=str_wrap(paste0("Des ",str_to_title(PHaz)," qui naissent et des ",str_to_title(PHaz)," qui meurent"),60),
-     subtitle=str_wrap(paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période."),90),  caption="Insee (F. des personnes décédées, F. des Prénoms), calculs & viz V.Alexandre @humeursdevictor",
+      subtitle=str_wrap(paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période."),70),  caption=str_wrap("Insee (F. des personnes décédées, F. des Prénoms), calculs & viz V.Alexandre @humeursdevictor",60),
      x="",y="")+
   annotate(geom="text",x=ifelse(is.infinite(min(Enfants$nombre)),-1,min(Enfants$nombre)),y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust="inward")+
   annotate(geom="text",x=max(BDDDCD$Nombre),y=1999,label="Décès",colour="#727272",hjust="inward")+
   geom_vline(xintercept = 0,colour="#141E28")+
   theme(plot.title.position = "plot",panel.grid.minor = element_blank(),panel.grid.major = element_blank(),text=element_text(family = "Corbel",size=12))
 NomGraph<-paste0("img/",Sys.Date(),"_DecesNaissance_",PHaz,".png")
-agg_png(NomGraph, width = 800, height = 900, res = 144)
+agg_png(NomGraph, width = 900, height = 900, res = 144)
 plot(Graph)
 invisible(dev.off())
   
    TW1<-paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période.")
-   #rtweet::post_tweet(status=TW1,media = NomGraph,token = tweetbot_token)
-  rtweet::post_message(text=TW1,media = NomGraph, user="219078550",token = tweetbot_token)
+   rtweet::post_tweet(status=TW1,media = NomGraph,token = tweetbot_token)
+  
 }
  
-sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
+aujourdui <- Sys.Date()
 
+if(substr(aujourdhui,10,10)%in%c(1,3,5,7,9)){
+  sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
+} else if (substr(aujourdhui,10,10)%in%c(2,4,6,8,0)) {
+  sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+}
 
 ###########
 #Serie 2 A: quelle est la carte des salariés du secteur XXXX?
