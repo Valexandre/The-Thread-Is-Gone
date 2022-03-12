@@ -77,6 +77,7 @@ PrenomsPrincipauxDecedes<-Decedes%>%
   group_by(Sexe,Prenom)%>%
   summarise(Nombre=sum(Nombre))%>%arrange(desc(Nombre))
 PrenomsPrincipauxDecedes<-PrenomsPrincipauxDecedes%>%filter(Nombre>6)
+Donnes<-Donnes%>%filter(preusuel%in%PrenomsPrincipauxDecedes$Prenom)
 
 SHaz<-sample(1:2,1)
 PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz],1)
