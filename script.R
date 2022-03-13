@@ -56,7 +56,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     theme(legend.position="top",plot.title.position = "plot",
           text=element_text(family = "Corbel",size=12))
   NomCarte<-paste0("img/",Sys.Date(),"_Carte_",PrenomS,"_",DepDeDeces,".png")
-  agg_png(NomCarte, width = 800, height = 900, res = 144)
+  agg_png(NomCarte, width = 900, height = 900, res = 144)
   plot(Carte)
   invisible(dev.off())
   
