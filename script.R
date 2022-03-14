@@ -114,7 +114,7 @@ invisible(dev.off())
   
 }
  
-aujourdui <- Sys.Date()
+aujourdhui <- Sys.Date()
 
 if(substr(aujourdhui,10,10)%in%c(1,3,5,7,9)){
   sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
