@@ -50,7 +50,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     scale_colour_manual("",values=c("lightgray","black"))+
     theme_void()+
     labs(title=str_wrap(paste0("Où sont nées les personnes prénommées ",str_to_title(PrenomS)," décédées ",unique(tmpbdd$LieuDep) ," entre 2019 et 2021?"),60),
-         subtitle=str_wrap(paste0("Part des ",sum(tmpbdd$Nombre)," personnes décédées ",unique(tmpbdd$LieuDep), " selon leur département de naissance."),85),  caption="Données Insee (Fichier des personnes décédées), calculs & carte V.Alexandre @humeursdevictor")+
+         subtitle=str_wrap(paste0("Part des ",sum(tmpbdd$Nombre)," personnes décédées ",unique(tmpbdd$LieuDep), " selon leur département de naissance."),70),  caption="Données Insee (Fichier des personnes décédées), calculs & carte V.Alexandre @humeursdevictor")+
     scale_fill_stepsn("", colours=CouleursBornes,breaks=c(0,2.5,5,7.5,10,50,100),limits=c(0,100),labels = function(x) {x}, show.limits = F,values = c(0/100,2.5/100,5/100,7.5/100,10/100,50/100,1))+
     guides(colour=FALSE,fill=guide_colorsteps(barwidth = 20, barheight = 1.5,even.steps = T))+
     theme(legend.position="top",plot.title.position = "plot",
