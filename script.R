@@ -110,7 +110,7 @@ plot(Graph)
 invisible(dev.off())
   
    TW1<-paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période.")
-   rtweet::post_tweet(status=TW1,media = NomGraph,token = tweetbot_token)
+   rtweet::post_tweet(status=TW1,media = NomGraph,token = tweetbot_token,media_alt_text = paste0("graph des ",str_to_title(PHaz)))
   
 }
  
