@@ -100,8 +100,8 @@ Graph<-BDDDCD%>%ggplot()+
   labs(title=str_wrap(paste0("Des ",str_to_title(PHaz)," qui naissent et des ",str_to_title(PHaz)," qui meurent"),60),
       subtitle=str_wrap(paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période."),70),  caption=str_wrap("Insee (F. des personnes décédées, F. des Prénoms), calculs & viz V.Alexandre @humeursdevictor",60),
      x="",y="")+
-  annotate(geom="text",x=ifelse(is.infinite(min(Enfants$nombre)),-1,min(Enfants$nombre)),y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust="inward")+
-  annotate(geom="text",x=max(BDDDCD$Nombre),y=1999,label="Décès",colour="#727272",hjust="inward")+
+  annotate(geom="text",x=ifelse(is.infinite(min(Enfants$nombre,na.rm=T)),-1,min(Enfants$nombre,na.rm=T)),y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust="inward")+
+  annotate(geom="text",x=max(BDDDCD$Nombre,na.rm=T),y=1999,label="Décès",colour="#727272",hjust="inward")+
   geom_vline(xintercept = 0,colour="#141E28")+
   theme(plot.title.position = "plot",panel.grid.minor = element_blank(),panel.grid.major = element_blank(),text=element_text(family = "Corbel",size=12))
 NomGraph<-paste0("img/",Sys.Date(),"_DecesNaissance_",PHaz,".png")
