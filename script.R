@@ -38,7 +38,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
   TotalDecesPrenom<-PrenomsDecedesParDepSexe%>%
     filter(Prenom==PrenomS)%>%
     filter(Sexe==tmpbdd$Sexe[1])%>%
-    ungroup()%>%summarise(TotalPrenom=sum(Nombre))
+    ungroup()%>%summarise(TotalPrenom=sum(Nombre,na.rm=T))
   round(TotalDecesPrenom$TotalPrenom,-2)
   
    Carte<-tmpbdd%>%
@@ -75,7 +75,7 @@ Decedes<-readRDS("data/PrenomsDecedes2000_2020.Rdata")
 
 PrenomsPrincipauxDecedes<-Decedes%>%
   group_by(Sexe,Prenom)%>%
-  summarise(Nombre=sum(Nombre))%>%arrange(desc(Nombre))
+  summarise(Nombre=sum(Nombre,na.rm=T))%>%arrange(desc(Nombre))
 PrenomsPrincipauxDecedes<-PrenomsPrincipauxDecedes%>%filter(Nombre>6)
 Donnes<-Donnes%>%filter(preusuel%in%PrenomsPrincipauxDecedes$Prenom)
 
