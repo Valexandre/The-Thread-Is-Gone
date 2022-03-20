@@ -125,6 +125,7 @@ BilanAPE_EPCI<-readRDS("data/BilanAPE_EPCI.Rdata")
 PartJointureAPESF<-readRDS("data/PartEmploi1000EPCI.Rdata")
 SimpleEPCIM<-readRDS("data/SimpleEPCIMetropole.Rdata")
 JusteGrossesCommunesEPCI<-readRDS("data/GrandesCommunesEPCI.Rdata")
+uniqueEPCIurssaf<-as.character(unique(PartJointureAPESF$code_epci))
 
 CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
   proprecodeape<-unique(PartJointureAPESF$Libellé[PartJointureAPESF$ape==codeAPE])
@@ -177,5 +178,3 @@ if(substr(aujourdhui,10,10)%in%c(1,4,7)){
 } else if (substr(aujourdhui,10,10)%in%c(3,6,9,0)) {
 CreeUneCarteDeLEmploiSalarieParEPCI(sample(apeplus5K,1))
 }
-
-#
