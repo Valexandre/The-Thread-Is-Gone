@@ -150,7 +150,7 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
                       arrow=arrow(length = unit(0.02, "npc")),
                     curvature=0.2,colour="#727272")+
          geom_label(data=GrossesVilles,aes(x=XDEP,y=YDEP,label=str_wrap(paste0(rang,". ",NOM_COM,": ",round(PartSecteurDansCommunePour1000/10,1),"%"),30)),hjust=0)+
-         scale_fill_manual("Part des emplois du secteur", values=brewer.pal(7,"Reds"),
+         scale_fill_manual("Part des emplois du secteur", values=c("#FEE5D9", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D"),
                            labels=c("Moins de 0,1%","0,1% à 0,5%",
                                     "0,5% à 1%","1% à 5%",'5% à 10%',"Plus de 10%")) +
          theme_map()+guides(fill = guide_legend(nrow=2))+
