@@ -114,16 +114,64 @@ invisible(dev.off())
   
 }
  
-aujourdhui <- Sys.Date()
-
-if(substr(aujourdhui,10,10)%in%c(1,3,5,7,9)){
-  sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
-} else if (substr(aujourdhui,10,10)%in%c(2,4,6,8,0)) {
-  sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
-}
 
 ###########
 #Serie 2 A: quelle est la carte des salariés du secteur XXXX?
 #Serie 2 B: quelle est la carte des établissements du secteur XXXX?
 
+
+apeplus5K<-readRDS("data/apeplus5K.Rdata")
+BilanAPE_EPCI<-readRDS("data/BilanAPE_EPCI.Rdata")
+PartJointureAPESF<-readRDS("data/PartEmploi1000EPCI.Rdata")
+SimpleEPCIM<-readRDS("data/SimpleEPCIMetropole.Rdata")
+JusteGrossesCommunesEPCI<-readRDS("data/GrandesCommunesEPCI.Rdata")
+
+CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
+  proprecodeape<-unique(PartJointureAPESF$Libellé[PartJointureAPESF$ape==codeAPE])
+  pourtitre<-str_replace_all(proprecodeape,pattern = "\\/","")
+  Tout<-PartJointureAPESF%>%
+    filter(ape==codeAPE)%>%
+    arrange(desc(PartSecteurDansCommunePour1000))
+  GrossesVilles<-Tout[1:3,]
+  GrossesVilles$code_epci<-as.character(GrossesVilles$code_epci)
+  GrossesVilles<-cbind(GrossesVilles%>%left_join(JusteGrossesCommunesEPCI,by=c("code_epci"="CODE_EPCI")),GrossesVilles%>%left_join(JusteGrossesCommunesEPCI,by=c("code_epci"="CODE_EPCI"))%>%st_as_sf()%>%st_coordinates())%>%
+    mutate(XDEP=rep(136853,3),YDEP=c(6600000,6500000,6400000))%>%mutate(rang=row_number())
+  TotalSal<-sum(BilanAPE_EPCI$NombreSalaries[BilanAPE_EPCI$ape==codeAPE])
+  
+  png(filename = paste0("img/EPCI_Salaries ",pourtitre,".png"),width = 900, height=900,type = "cairo")
+  plot(PartJointureAPESF%>%
+         filter(ape==codeAPE)%>%
+         left_join(SimpleEPCIM%>%filter(CODE_EPCI%in%uniqueEPCIurssaf),by=c("code_epci"="CODE_EPCI"))%>%st_as_sf()%>%
+         ggplot() +
+         geom_sf(data=SimpleEPCIM,fill="white",colour="#72727250")+
+         geom_sf(aes(fill = cut(PartSecteurDansCommunePour1000,breaks=c(0,1,5,10,50,100,1000),
+                                include.lowest=T)),colour="#72727250") +
+         geom_curve(data=GrossesVilles,aes(x=XDEP+10000,xend=X,  y=YDEP, yend=Y),
+                      arrow=arrow(length = unit(0.02, "npc")),
+                    curvature=0.2,colour="#727272")+
+         geom_label(data=GrossesVilles,aes(x=XDEP,y=YDEP,label=str_wrap(paste0(rang,". ",NOM_COM,": ",round(PartSecteurDansCommunePour1000/10,1),"%"),30)),hjust=0)+
+         scale_fill_manual("Part des emplois du secteur", values=brewer.pal(7,"Reds"),
+                           labels=c("Moins de 0,1%","0,1% à 0,5%",
+                                    "0,5% à 1%","1% à 5%",'5% à 10%',"Plus de 10%")) +
+         theme_map()+guides(fill = guide_legend(nrow=2))+
+         labs(title = str_wrap(paste0("Où se trouvent les ",TotalSal, " salariés du secteur ",proprecodeape," ?"),70),
+                 subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés de ce secteur en 2020.",caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
+         theme(legend.position = "top",text=element_text(family = "Corbel",size=12)))
+  dev.off()
+ TW1<-paste0("En 2020, ",TotalSal, " salariés travaillaient dans le secteur «", proprecodeape ,"».")
+   rtweet::post_tweet(status=TW1,media =  paste0("img/EPCI_Salaries ",pourtitre,".png"),token = tweetbot_token,media_alt_text = paste0("graph des ",proprecodeape))
+  
+}
 ###########
+
+aujourdhui <- Sys.Date()
+
+if(substr(aujourdhui,10,10)%in%c(1,4,7)){
+  sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
+} else if (substr(aujourdhui,10,10)%in%c(2,5,8)) {
+  sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+} else if (substr(aujourdhui,10,10)%in%c(3,6,9,0)) {
+CreeUneCarteDeLEmploiSalarieParEPCI(sample(apeplus5K,1))
+}
+
+#
