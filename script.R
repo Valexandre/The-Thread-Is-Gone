@@ -138,8 +138,7 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
     mutate(XDEP=rep(136853,3),YDEP=c(6600000,6500000,6400000))%>%mutate(rang=row_number())
   TotalSal<-sum(BilanAPE_EPCI$NombreSalaries[BilanAPE_EPCI$ape==codeAPE])
   
-  png(filename = paste0("img/EPCI_Salaries ",pourtitre,".png"),width = 900, height=900,type = "cairo")
-  plot(PartJointureAPESF%>%
+  CarteAPE<-PartJointureAPESF%>%
          filter(ape==codeAPE)%>%
          left_join(SimpleEPCIM%>%filter(CODE_EPCI%in%uniqueEPCIurssaf),by=c("code_epci"="CODE_EPCI"))%>%st_as_sf()%>%
          ggplot() +
@@ -155,9 +154,14 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
                                     "0,5% à 1%","1% à 5%",'5% à 10%',"Plus de 10%")) +
          theme_map()+guides(fill = guide_legend(nrow=2))+
          labs(title = str_wrap(paste0("Où se trouvent les ",TotalSal, " salariés du secteur ",proprecodeape," ?"),70),
-                 subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés de ce secteur en 2020.",caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
-         theme(legend.position = "top",text=element_text(family = "Corbel",size=12)))
-  dev.off()
+                 subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés de ce secteur en 2020.",
+              caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
+         theme(legend.position = "top",text=element_text(family = "Corbel",size=12))
+
+   agg_png(paste0("img/EPCI_Salaries ",pourtitre,".png"), width = 900, height = 900, res = 144)
+  plot(CarteAPE)
+  invisible(dev.off())
+  
  TW1<-paste0("En 2020, ",TotalSal, " salariés travaillaient dans le secteur «", proprecodeape ,"».")
    rtweet::post_tweet(status=TW1,media =  paste0("img/EPCI_Salaries ",pourtitre,".png"),token = tweetbot_token,media_alt_text = paste0("graph des ",proprecodeape))
   
