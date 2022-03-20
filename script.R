@@ -153,7 +153,7 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
          scale_fill_manual("Part des emplois du secteur", values=c("#FEE5D9", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D"),
                            labels=c("Moins de 0,1%","0,1% à 0,5%",
                                     "0,5% à 1%","1% à 5%",'5% à 10%',"Plus de 10%")) +
-         theme_map()+guides(fill = guide_legend(nrow=2))+
+         theme_void()+guides(fill = guide_legend(nrow=2))+
          labs(title = str_wrap(paste0("Où se trouvent les ",TotalSal, " salariés du secteur ",proprecodeape," ?"),70),
                  subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés de ce secteur en 2020.",
               caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
