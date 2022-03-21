@@ -101,7 +101,7 @@ Graph<-BDDDCD%>%ggplot()+
       subtitle=str_wrap(paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période."),70),  caption=str_wrap("Insee (F. des personnes décédées, F. des Prénoms), calculs & viz V.Alexandre @humeursdevictor",60),
      x="",y="")+
   annotate(geom="text",x=-10,y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust="inward")+
-  annotate(geom="text",x=max(BDDDCD$Nombre,na.rm=T),y=1999,label="Décès",colour="#727272",hjust="inward")+
+  annotate(geom="text",x=10,y=1999,label="Décès",colour="#727272",hjust="inward")+
   geom_vline(xintercept = 0,colour="#141E28")+
   theme(plot.title.position = "plot",panel.grid.minor = element_blank(),panel.grid.major = element_blank(),text=element_text(family = "Corbel",size=12))
 NomGraph<-paste0("img/",Sys.Date(),"_DecesNaissance_",PHaz,".png")
@@ -118,8 +118,9 @@ invisible(dev.off())
 ###########
 #Serie 2 A: quelle est la carte des salariés du secteur XXXX?
 #Serie 2 B: quelle est la carte des établissements du secteur XXXX?
-
-
+    
+couleurs<-c("[0,1]"="#FEE5D9", "(1,5]"="#FCBBA1", "(5,10]"="#FC9272", "(10,50]"="#FB6A4A","(50,100]"= "#EF3B2C",
+            "(100,1e+03]"="#CB181D")
 apeplus5K<-readRDS("data/apeplus5K.Rdata")
 BilanAPE_EPCI<-readRDS("data/BilanAPE_EPCI.Rdata")
 PartJointureAPESF<-readRDS("data/PartEmploi1000EPCI.Rdata")
@@ -150,9 +151,7 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
                       arrow=arrow(length = unit(0.02, "npc")),
                     curvature=0.2,colour="#727272")+
          geom_label(data=GrossesVilles,aes(x=XDEP,y=YDEP,label=str_wrap(paste0(rang,". ",NOM_COM,": ",round(PartSecteurDansCommunePour1000/10,1),"%"),30)),hjust=0)+
-         scale_fill_manual("Part des emplois du secteur", values=c("#FEE5D9", "#FCBBA1", "#FC9272", "#FB6A4A", "#EF3B2C", "#CB181D", "#99000D"),
-                           labels=c("Moins de 0,1%","0,1% à 0,5%",
-                                    "0,5% à 1%","1% à 5%",'5% à 10%',"Plus de 10%")) +
+         scale_fill_manual("Part des emplois du secteur", values=couleurs) +
          theme_void()+guides(fill = guide_legend(nrow=2))+
          labs(title = str_wrap(paste0("Où se trouvent les ",TotalSal, " salariés du secteur ",proprecodeape," ?"),60),
                  subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés en 2020.",
