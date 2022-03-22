@@ -193,15 +193,14 @@ DonneesEuro<-c("fr","en","de","it","es","pt","nl")%>%map_dfr(SortLeTop3)
 
 PourGraph<-tibble(langue=c("fr","en","de","it","es","pt","nl"),
                   lat=c(47,52,50,43,43,43,52),
-                  lon=c(-2,-8.5,11,10,0,-8.5,5.5),
-                 picto=c("🇫🇷", "🇬🇧 🇺🇸", "🇩🇪", "🇮🇹", "🇪🇸","🇵🇹 🇧🇷", "🇳🇱"))
+                  lon=c(-2,-8.5,11,10,0,-8.5,5.5))
 PourGraph<-PourGraph%>%left_join(DonneesEuro%>%filter(rank==1))
 
-agg_png(paste0("img/",jour,"_wiki.png"), width = 800, height = 600, res = 144)
+agg_png(paste0("img/",Sys.Date(),"_wiki.png"), width = 900, height = 600, res = 144)
 plot(PourGraph%>%
   ggplot()+
   #  geom_rect(xmin=-9,xmax=19,ymin=42,ymax=53,fill=NA,colour="#0F82BE")+
-  geom_label(aes(lon,lat,label=str_wrap(paste0(picto,": ",Titre),16)),hjust=0,size=6,vjust=0,
+  geom_label(aes(lon,lat,label=str_wrap(paste0(langue,": ",Titre),16)),hjust=0,size=4,vjust=0,
              label.padding = unit(0.02,"npc"), label.r=unit(0.1,"npc"))+theme_void()+
     labs(title="Quelles ont été les pages les plus consultées sur Wikipédia hier ?",
          subtitle = paste0("A la date du ",substr(jour,9,10),"/",substr(jour,6,7),"/",substr(jour,1,4)),
@@ -212,34 +211,34 @@ invisible(dev.off())
 
 
 Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikipédia ? 
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"],"
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"],"
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"],"
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"],"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"],"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"],"
 
 #WikipediaCuriosite")
 
-rtweet::post_tweet(status=Post1,media =  paste0("img/",jour,"_wiki.png"),token = tweetbot_token,media_alt_text = "recherches wikipedia")
+rtweet::post_tweet(status=Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"),token = tweetbot_token,media_alt_text = "recherches wikipedia")
  
 Post2<-paste0("🇬🇧 🇺🇸 Côté anglophone ?
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"],"
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="en"],"
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="en"])
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"],"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="en"],"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="en"])
 
 reply_id <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post2, in_reply_to_status_id = reply_id)
   
 Post3<-paste0("🇩🇪 Et Outre-Rhin ?
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="de"]," 
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="de"]," 
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="de"])
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="de"]," 
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="de"]," 
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="de"])
   
 reply_id2 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post3, in_reply_to_status_id = reply_id2)
 
 Post4<-paste0("🇮🇹 Du côté du Wikipédia italien, le classement est le suivant:
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="it"],"
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="it"]," 
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="it"])
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="it"],"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="it"]," 
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="it"])
 
 reply_id3 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post4, in_reply_to_status_id = reply_id3)
@@ -253,17 +252,17 @@ reply_id4 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot
 rtweet::post_tweet(status = Post5, in_reply_to_status_id = reply_id4)
   
 Post6<-paste0("🇵🇹 🇧🇷 Le Wikipédia portugais s'est intéressé aux sujets suivants :
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"]," 
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"]," 
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"])
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"]," 
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"]," 
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"])
 
 reply_id5 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post6, in_reply_to_status_id = reply_id5)
   
 Post7<-paste0("🇳🇱 Tandis que nos amis néerlandais cherchaient à en savoir plus sur :
-1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"]," 
-2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"]," 
-3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"])
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"]," 
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"]," 
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"])
   
 reply_id6 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post7, in_reply_to_status_id = reply_id6)
