@@ -168,12 +168,149 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
 }
 ###########
 
+#Série 4 : recherches sur wikipedia
+
+library(jsonlite)
+#PagesVuesWiki
+jour<-gsub("-","/",Sys.Date()-1)
+function(x,y) !(x %in% y)
+SortLeTop3<-function(langue){
+  PagesPlusVues<-fromJSON(paste0("https://wikimedia.org/api/rest_v1/metrics/pageviews/top/",langue,".wikipedia/all-access/",jour))[["items"]][["articles"]][[1]]
+  PagesPlusVues<-PagesPlusVues[1:10,]
+  PagesPlusVues<-PagesPlusVues[!grepl(":",PagesPlusVues$article),]
+  PagesPlusVues<-PagesPlusVues%>%mutate(Titre=gsub("_"," ",article))
+  PagesPlusVues<-PagesPlusVues%>%
+    filter(Titre%!in%c("Main Page","Pagina principale","Accueil","Hoofdpagina","Página_principal"))%>%
+    mutate(rank=row_number())%>%filter(!is.na(Titre))
+  PagesPlusVues<-PagesPlusVues[1:3,1:4]
+  PagesPlusVues%>%mutate(langue=langue,
+                         lien=paste0("https://",langue,".wikipedia.org/wiki/",article))
+}
+
+sortlesposts<-function(x){
+  x<-rien
+DonneesEuro<-c("fr","en","de","it","es","pt","nl")%>%map_dfr(SortLeTop3)
+
+PourGraph<-tibble(langue=c("fr","en","de","it","es","pt","nl"),
+                  lat=c(47,52,50,43,43,43,52),
+                  lon=c(-2,-8.5,11,10,0,-8.5,5.5),
+                 picto=c("🇫🇷", "🇬🇧 🇺🇸", "🇩🇪", "🇮🇹", "🇪🇸",""🇵🇹 🇧🇷", "🇳🇱"))
+PourGraph<-PourGraph%>%left_join(DonneesEuro%>%filter(rank==1))
+
+agg_png(paste0("img/",jour,"_wiki.png"), width = 800, height = 600, res = 144)
+plot(PourGraph%>%
+  ggplot()+
+  #  geom_rect(xmin=-9,xmax=19,ymin=42,ymax=53,fill=NA,colour="#0F82BE")+
+  geom_label(aes(lon,lat,label=str_wrap(paste0(picto,": ",Titre),16)),hjust=0,size=6,vjust=0,
+             label.padding = unit(0.02,"npc"), label.r=unit(0.1,"npc"))+theme_void()+
+    labs(title="Quelles ont été les pages les plus consultées sur Wikipédia hier ?",
+         subtitle = paste0("A la date du ",substr(jour,9,10),"/",substr(jour,6,7),"/",substr(jour,1,4)),
+                                       caption="Données Wikimedia. Viz V.Alexandre @humeursdevictor")+
+         theme(text=element_text(family = "Corbel",size=12))+
+  coord_cartesian(xlim=c(-9,19),ylim=c(42,55)))
+invisible(dev.off())
+
+
+Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikipédia ? 
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"],")
+
+#WikipediaCuriosite")
+
+rtweet::post_tweet(status=Post1,media =  paste0("img/",jour,"_wiki.png"),token = tweetbot_token,media_alt_text = "recherches wikipedia")
+ 
+Post2<-paste0("🇬🇧 🇺🇸 Côté anglophone ?
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="en"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="en"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="en"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="en"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="en"],")")
+
+reply_id <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post2, in_reply_to_status_id = reply_id)
+  
+Post3<-paste0("🇩🇪 Et Outre-Rhin ?
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="de"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="de"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="de"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="de"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="de"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="de"],")")
+  
+reply_id2 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post3, in_reply_to_status_id = reply_id2)
+
+Post4<-paste0("🇮🇹 Du côté du Wikipédia italien, le classement est le suivant:
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="it"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="it"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="it"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="it"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="it"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="it"],")")
+
+reply_id3 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post4, in_reply_to_status_id = reply_id3)
+
+Post5<-paste0("🇪🇸 La curiosité des hispanophones s'est portée sur :
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="es"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="es"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="es"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="es"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="es"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="es"],")")
+
+reply_id4 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post5, in_reply_to_status_id = reply_id4)
+  
+Post6<-paste0("🇵🇹 🇧🇷 Le Wikipédia portugais s'est intéressé aux sujets suivants :
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"],")")
+
+reply_id5 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post6, in_reply_to_status_id = reply_id5)
+  
+Post7<-paste0("🇳🇱 Tandis que nos amis néerlandais cherchaient à en savoir plus sur :
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"]," (",
+DonneesEuro$lien[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"],")
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"]," (",
+DonneesEuro$lien[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"],")
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"]," (",
+DonneesEuro$lien[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"],")")
+  
+reply_id6 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
+rtweet::post_tweet(status = Post7, in_reply_to_status_id = reply_id6)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 aujourdhui <- Sys.Date()
 
 if(substr(aujourdhui,10,10)%in%c(1,4,7)){
   sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
 } else if (substr(aujourdhui,10,10)%in%c(2,5,8)) {
-  sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+ # sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+  sortlesposts(x)
 } else if (substr(aujourdhui,10,10)%in%c(3,6,9,0)) {
-CreeUneCarteDeLEmploiSalarieParEPCI(sample(apeplus5K,1))
+  CreeUneCarteDeLEmploiSalarieParEPCI(sample(apeplus5K,1))
 }
