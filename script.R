@@ -188,7 +188,7 @@ SortLeTop3<-function(langue){
 }
 
 sortlesposts<-function(x){
-  x<-rien
+  x<-"rien"
 DonneesEuro<-c("fr","en","de","it","es","pt","nl")%>%map_dfr(SortLeTop3)
 
 PourGraph<-tibble(langue=c("fr","en","de","it","es","pt","nl"),
