@@ -269,26 +269,14 @@ rtweet::post_tweet(status = Post7, in_reply_to_status_id = reply_id6)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 aujourdhui <- Sys.Date()
 
-if(substr(aujourdhui,10,10)%in%c(1,4,7)){
+if(substr(aujourdhui,10,10)%in%c(1,5)){
   sortunecartedesnaissancesetdecesparprenom(SHaz,PHaz)
-} else if (substr(aujourdhui,10,10)%in%c(2,5,8)) {
- # sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
-  sortlesposts(x)
-} else if (substr(aujourdhui,10,10)%in%c(3,6,9,0)) {
+} else if (substr(aujourdhui,10,10)%in%c(2,6)) {
+  sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
+} else if (substr(aujourdhui,10,10)%in%c(3,7,9)) {
   CreeUneCarteDeLEmploiSalarieParEPCI(sample(apeplus5K,1))
+} else if (substr(aujourdhui,10,10)%in%c(4,8,0)){
+  sortlesposts(x)
 }
