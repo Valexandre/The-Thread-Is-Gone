@@ -194,7 +194,7 @@ DonneesEuro<-c("fr","en","de","it","es","pt","nl")%>%map_dfr(SortLeTop3)
 PourGraph<-tibble(langue=c("fr","en","de","it","es","pt","nl"),
                   lat=c(47,52,50,43,43,43,52),
                   lon=c(-2,-8.5,11,10,0,-8.5,5.5),
-                 picto=c("🇫🇷", "🇬🇧 🇺🇸", "🇩🇪", "🇮🇹", "🇪🇸",""🇵🇹 🇧🇷", "🇳🇱"))
+                 picto=c("🇫🇷", "🇬🇧 🇺🇸", "🇩🇪", "🇮🇹", "🇪🇸","🇵🇹 🇧🇷", "🇳🇱"))
 PourGraph<-PourGraph%>%left_join(DonneesEuro%>%filter(rank==1))
 
 agg_png(paste0("img/",jour,"_wiki.png"), width = 800, height = 600, res = 144)
