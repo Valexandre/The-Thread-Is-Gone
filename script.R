@@ -158,12 +158,12 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
               caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
          theme(legend.position = "top",text=element_text(family = "Corbel",size=12))
 
-   agg_png(paste0("img/EPCI_Salaries ",pourtitre,".png"), width = 900, height = 900, res = 144)
+   agg_png(paste0("img/",Sys.Date(),"_EPCI_Salaries ",pourtitre,".png"), width = 900, height = 900, res = 144)
   plot(CarteAPE)
   invisible(dev.off())
   
  TW1<-paste0("En 2020, ",TotalSal, " salariés travaillaient dans le secteur «", proprecodeape ,"».")
-   rtweet::post_tweet(status=TW1,media =  paste0("img/EPCI_Salaries ",pourtitre,".png"),token = tweetbot_token,media_alt_text = paste0("graph des ",proprecodeape))
+   rtweet::post_tweet(status=TW1,media =  paste0("img/",Sys.Date(),"_EPCI_Salaries ",pourtitre,".png"),token = tweetbot_token,media_alt_text = paste0("graph des ",proprecodeape))
   
 }
 ###########
