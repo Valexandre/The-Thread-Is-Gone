@@ -121,6 +121,8 @@ invisible(dev.off())
     
 couleurs<-c("[0,1]"="#FEE5D9", "(1,5]"="#FCBBA1", "(5,10]"="#FC9272", "(10,50]"="#FB6A4A","(50,100]"= "#EF3B2C",
             "(100,1e+03]"="#CB181D")
+nomslabels<-c("[0,1]"="<= 0,1%", "(1,5]"="0,1% < 0,5%", "(5,10]"="0,5% < 1%", "(10,50]"="1% < 5%","(50,100]"= "5% < 10%",
+            "(100,1e+03]"=">= 10%")
 apeplus5K<-readRDS("data/apeplus5K.Rdata")
 BilanAPE_EPCI<-readRDS("data/BilanAPE_EPCI.Rdata")
 PartJointureAPESF<-readRDS("data/PartEmploi1000EPCI.Rdata")
@@ -151,10 +153,10 @@ CreeUneCarteDeLEmploiSalarieParEPCI<-function(codeAPE){
                       arrow=arrow(length = unit(0.02, "npc")),
                     curvature=0.2,colour="#727272")+
          geom_label(data=GrossesVilles,aes(x=XDEP,y=YDEP,label=str_wrap(paste0(rang,". ",NOM_COM,": ",round(PartSecteurDansCommunePour1000/10,1),"%"),30)),hjust=0)+
-         scale_fill_manual("Part des emplois du secteur", values=couleurs) +
+         scale_fill_manual("Part des emplois du secteur", values=couleurs,labels=nomslabels) +
          theme_void()+guides(fill = guide_legend(nrow=2))+
          labs(title = str_wrap(paste0("Où se trouvent les ",TotalSal, " salariés du secteur ",proprecodeape," ?"),60),
-                 subtitle = "La carte représente les zones dans lesquelles travaillaient les salariés en 2020.",
+                 subtitle = "Zones dans lesquelles travaillaient les salariés en 2020.",
               caption="Données URSSAF. Carte V.Alexandre @humeursdevictor")+
          theme(legend.position = "top",text=element_text(family = "Corbel",size=12))
 
