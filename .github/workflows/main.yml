@@ -5,7 +5,7 @@ name: Workflow
 # Controls when the workflow will run
 on:
   schedule:
-  - cron:  '00 07 * * *'
+  - cron:  '00 07,10 * * *'
 #on:
 #  push:
 #    branches:
