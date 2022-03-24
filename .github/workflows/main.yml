@@ -2,7 +2,7 @@
 
 name: Workflow 
 
-# Controls when the workflow will run
+# Controls when the workflow will run s
 #on:
 #  schedule:
 #  - cron:  '00 07,10 * * *'
