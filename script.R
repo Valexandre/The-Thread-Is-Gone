@@ -83,6 +83,8 @@ SHaz<-sample(1:2,1)
 PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz],1)
 
 sortunecartedesnaissancesetdecesparprenom<-function(SHaz,PHaz){
+  print(SHaz)
+print(PHaz)
  BDDDCD<-Decedes%>%filter(Prenom==PHaz)%>%filter(Sexe==SHaz)%>%mutate(an=as.numeric(an))
 
 Enfants<-Donnes%>%filter(sexe==SHaz)%>%
