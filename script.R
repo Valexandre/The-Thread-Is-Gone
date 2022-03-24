@@ -68,7 +68,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
   
 #sortunecartedesdecesparprenom(sample(PrenomsDecedesParDepSexe$Prenom[PrenomsDecedesParDepSexe$Sexe==sample(1:2,1)],1),sample(DEPS$INSEE_DEP,1))
 
-##########
+########## print
 #Serie 1 bis
 Donnes<-readRDS("data/PrenomsDonnes2000_2020.Rdata")
 Decedes<-readRDS("data/PrenomsDecedes2000_2020.Rdata")
