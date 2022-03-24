@@ -115,7 +115,7 @@ invisible(dev.off())
 }
  
 
-###########
+########## 2
 #Serie 2 A: quelle est la carte des salariés du secteur XXXX?
 #Serie 2 B: quelle est la carte des établissements du secteur XXXX?
     
