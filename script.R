@@ -50,7 +50,7 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
     scale_colour_manual("",values=c("lightgray","black"))+
     theme_void()+
     labs(title=str_wrap(paste0("Où sont nées les personnes prénommées ",str_to_title(PrenomS)," décédées ",unique(tmpbdd$LieuDep) ," entre 2019 et 2021?"),55),
-         subtitle=str_wrap(paste0("Part des ",sum(tmpbdd$Nombre)," personnes décédées ",unique(tmpbdd$LieuDep), " selon leur département de naissance."),70),  caption="Données Insee (Fichier des personnes décédées), calculs & carte V.Alexandre @humeursdevictor")+
+         subtitle=str_wrap(paste0("Part des ",sum(tmpbdd$Nombre)," personnes décédées ",unique(tmpbdd$LieuDep), " selon leur département de naissance."),65),  caption=str_wrap("Données Insee (Fichier des personnes décédées), calculs & carte V.Alexandre @humeursdevictor",60))+
     scale_fill_stepsn("", colours=CouleursBornes,breaks=c(0,2.5,5,7.5,10,50,100),limits=c(0,100),labels = function(x) {x}, show.limits = F,values = c(0/100,2.5/100,5/100,7.5/100,10/100,50/100,1))+
     guides(colour=FALSE,fill=guide_colorsteps(barwidth = 20, barheight = 1.5,even.steps = T))+
     theme(legend.position="top",plot.title.position = "plot",
@@ -92,16 +92,16 @@ Enfants<-Donnes%>%filter(sexe==SHaz)%>%
 Graph<-BDDDCD%>%ggplot()+
   geom_segment(aes(x=0,xend=Nombre,y=an,yend=an),stat="identity",colour="#727272")+
   geom_point(aes(x=Nombre,y=an),colour="#727272")+
-  geom_text(aes(x=Nombre,y=an,label=Nombre),colour="#727272",hjust=-1)+
+  geom_text(aes(x=Nombre,y=an,label=ifelse(an%in%c(2000,2020),Nombre,"")),colour="#727272",hjust=-1)+
   geom_segment(data=Enfants,aes(x=0,xend=nombre,y=annais,yend=annais),stat="identity",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"))+
   geom_point(data=Enfants,aes(x=nombre,y=annais),colour=ifelse(SHaz==1,"#0F82BE","#CC2828"))+
-  geom_text(data=Enfants,aes(x=nombre,y=annais,label=abs(nombre)),colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust=2)+
+  geom_text(data=Enfants,aes(x=nombre,y=annais,label=ifelse(annais %in% c(2000,2020),abs(nombre),"")),colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust=2)+
   theme_minimal()+scale_y_reverse()+scale_x_continuous(labels=abs)+
   labs(title=str_wrap(paste0("Des ",str_to_title(PHaz)," qui naissent et des ",str_to_title(PHaz)," qui meurent"),60),
       subtitle=str_wrap(paste0("Entre 2000 et 2020, ",sum(BDDDCD$Nombre), " ",str_to_title(PHaz)," sont ",ifelse(SHaz==1,"décédés en France ","décédées en France "),  " tandis que ", abs(sum(Enfants$nombre))," enfants recevaient ce prénom sur cette même période."),70),  caption=str_wrap("Insee (F. des personnes décédées, F. des Prénoms), calculs & viz V.Alexandre @humeursdevictor",60),
      x="",y="")+
-  annotate(geom="text",x=-10,y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust="inward")+
-  annotate(geom="text",x=10,y=1999,label="Décès",colour="#727272",hjust="inward")+
+  annotate(geom="text",x=-10,y=1999,label="Naissances",colour=ifelse(SHaz==1,"#0F82BE","#CC2828"),hjust=1)+
+  annotate(geom="text",x=10,y=1999,label="Décès",colour="#727272",hjust=0)+
   geom_vline(xintercept = 0,colour="#141E28")+
   theme(plot.title.position = "plot",panel.grid.minor = element_blank(),panel.grid.major = element_blank(),text=element_text(family = "Corbel",size=12))
 NomGraph<-paste0("img/",Sys.Date(),"_DecesNaissance_",PHaz,".png")
