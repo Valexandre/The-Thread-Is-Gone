@@ -71,7 +71,11 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
 ########## print
 #Serie 1 bis
 Donnes<-readRDS("data/PrenomsDonnes2000_2020_F.Rdata")
-Decedes<-readRDS("data/PrenomsDecedes2000_2020_F.Rdata")
+PrenomsPrincipauxDecedes<-readRDS("data/PrenomsDecedes2000_2020_F.Rdata")
+Decedes<-readRDS("data/PrenomsDecedes2000_2020.Rdata")
+PrenomsPrincipauxDecedes<-Decedes%>%
+  group_by(Sexe,Prenom)%>%
+  summarise(Nombre=sum(Nombre,na.rm=T))%>%arrange(desc(Nombre))
 
 SHaz<-sample(1:2,1)
 PHaz<-sample(Decedes$Prenom[Decedes$Sexe==SHaz],1)
