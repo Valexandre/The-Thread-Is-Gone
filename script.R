@@ -78,7 +78,7 @@ PrenomsPrincipauxDecedes<-Decedes%>%
   summarise(Nombre=sum(Nombre,na.rm=T))%>%arrange(desc(Nombre))
 
 SHaz<-sample(1:2,1)
-PHaz<-sample(Decedes$Prenom[Decedes$Sexe==SHaz],1)
+PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz],1)
 
 sortunecartedesnaissancesetdecesparprenom<-function(SHaz,PHaz){
   print(SHaz)
