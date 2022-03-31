@@ -73,9 +73,10 @@ sortunecartedesdecesparprenom<-function(PrenomS,DepDeDeces){
 Donnes<-readRDS("data/PrenomsDonnes2000_2020_F.Rdata")
 PrenomsPrincipauxDecedes<-readRDS("data/PrenomsDecedes2000_2020_F.Rdata")
 Decedes<-readRDS("data/PrenomsDecedes2000_2020.Rdata")
-PrenomsPrincipauxDecedes<-Decedes%>%
-  group_by(Sexe,Prenom)%>%
-  summarise(Nombre=sum(Nombre,na.rm=T))%>%arrange(desc(Nombre))
+#PrenomsPrincipauxDecedes<-Decedes%>%
+#  group_by(Sexe,Prenom)%>%
+#  summarise(Nombre=sum(Nombre,na.rm=T))%>%arrange(desc(Nombre))
+
 
 SHaz<-sample(1:2,1)
 PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz],1)
