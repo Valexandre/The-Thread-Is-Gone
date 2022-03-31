@@ -79,7 +79,7 @@ Decedes<-readRDS("data/PrenomsDecedes2000_2020.Rdata")
 
 
 SHaz<-sample(1:2,1)
-PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz],1)
+PHaz<-sample(PrenomsPrincipauxDecedes$Prenom[PrenomsPrincipauxDecedes$Sexe==SHaz & PrenomsPrincipauxDecedes$Prenom %in% Donnes$preusuel],1)
 
 sortunecartedesnaissancesetdecesparprenom<-function(SHaz,PHaz){
   print(SHaz)
