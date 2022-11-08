@@ -256,7 +256,7 @@ Post5<-paste0("🇪🇸 La curiosité des hispanophones s'est portée sur :
 reply_id4 <- rtweet::get_timeline(user = "Data_threads", n = 1, token = tweetbot_token)$id_str
 rtweet::post_tweet(status = Post5, in_reply_to_status_id = reply_id4)
   
-Post6<-paste0("🇵🇹 🇧🇷 Le Wikipédia portugais s'est intéressé aux sujets suivants :
+Post6<-paste0("🇵🇹 🇧🇷 Le Wikipédia en portugais s'est intéressé aux sujets suivants :
 1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"]," 
 2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"]," 
 3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"])
