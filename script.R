@@ -4,6 +4,7 @@ library(rtweet)
 library(sysfonts)
 library(jsonlite)
 library(ragg)
+library(rtoot)
 # On s'enregistre
 tweetbot_token <- rtweet::rtweet_bot(
   api_key = Sys.getenv("T_API_KEY"),
@@ -12,6 +13,7 @@ tweetbot_token <- rtweet::rtweet_bot(
   access_secret = Sys.getenv("T_ACCESS_SECRET")
 )
 rtweet::auth_as(tweetbot_token)
+
 Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
 `%!in%` <- function(x,y) !(x %in% y)
 
@@ -223,6 +225,7 @@ Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikip
 #WikipediaCuriosite")
 
 rtweet::post_tweet(status=Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"),token = tweetbot_token,media_alt_text = "recherches wikipedia")
+rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier",token= Sys.getenv("MASTO_TOKEN_LONG"))
  
 Post2<-paste0("🇬🇧 🇺🇸 Côté anglophone ?
 1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"],"
