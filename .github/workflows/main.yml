@@ -32,6 +32,7 @@ jobs:
       run: |
         install.packages(c("ragg", "tidyverse", "jsonlite","sf","sysfonts", "remotes"),type="binary")
         remotes::install_github("ropensci/rtweet")
+        remotes::install_github("schochastics/rtoot")
       shell: Rscript {0}
 
     # Run R script
