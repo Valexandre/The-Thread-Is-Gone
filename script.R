@@ -225,7 +225,7 @@ Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikip
 #WikipediaCuriosite")
 
 rtweet::post_tweet(status=Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"),token = tweetbot_token,media_alt_text = "recherches wikipedia")
-rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier",token= Sys.getenv("MASTO_TOKEN_LONG"))
+
  
 Post2<-paste0("🇬🇧 🇺🇸 Côté anglophone ?
 1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"],"
