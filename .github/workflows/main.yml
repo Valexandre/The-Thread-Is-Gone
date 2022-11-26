@@ -21,6 +21,7 @@ jobs:
       T_ACCESS_TOKEN: ${{ secrets.T_ACCESS_TOKEN }}
       T_ACCESS_SECRET: ${{ secrets.T_ACCESS_SECRET }}
       TWITTER_BEARER_TOKEN: ${{ secrets.BEARER }}
+      RTOOT_DEFAULT_TOKEN: ${{ secrets.RTOOT_DEFAULT_TOKEN }}
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }} 
     # Load repo and install R
     steps:
@@ -31,13 +32,13 @@ jobs:
     - name: Install packages
       run: |
         install.packages(c("ragg", "tidyverse", "jsonlite","sf","sysfonts", "remotes"),type="binary")
-        remotes::install_github("ropensci/rtweet")
+#        remotes::install_github("ropensci/rtweet")
         remotes::install_github("schochastics/rtoot")
       shell: Rscript {0}
 
     # Run R script
     - name: Lance le script
-      run: Rscript script.R
+      run: Rscript script_toot.R
       
  # Ajout des fichiers dans le dossier
     - name: Commit files
