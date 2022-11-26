@@ -1,6 +1,5 @@
 library(tidyverse)
 library(sf)
-library(rtweet)
 library(sysfonts)
 library(jsonlite)
 library(ragg)
