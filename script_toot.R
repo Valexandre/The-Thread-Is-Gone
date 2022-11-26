@@ -4,7 +4,7 @@ library(sysfonts)
 library(jsonlite)
 library(ragg)
 library(rtoot)
-# On s'enregistre
+# On s'enregistre bordel
 
 
 Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
