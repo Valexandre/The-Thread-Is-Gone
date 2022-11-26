@@ -6,13 +6,7 @@ library(jsonlite)
 library(ragg)
 library(rtoot)
 # On s'enregistre
-tweetbot_token <- rtweet::rtweet_bot(
-  api_key = Sys.getenv("T_API_KEY"),
-  api_secret = Sys.getenv("T_API_SECRET"),
-  access_token = Sys.getenv("T_ACCESS_TOKEN"),
-  access_secret = Sys.getenv("T_ACCESS_SECRET")
-)
-rtweet::auth_as(tweetbot_token)
+
 
 Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
 `%!in%` <- function(x,y) !(x %in% y)
@@ -68,7 +62,7 @@ Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikip
 
 #WikipediaCuriosite")
 
-rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier",token= Sys.getenv("MASTO_TOKEN_LONG"))
+rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier")
  
 }
 
