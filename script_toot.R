@@ -61,8 +61,9 @@ Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikip
 
 #WikipediaCuriosite")
 
-rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier", 
-                 token=Sys.getenv("RTOOT_DEFAULT_TOKEN"))
+rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier")
+ 
+                 
  
 }
 
