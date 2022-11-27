@@ -111,9 +111,6 @@ rtoot::post_toot(status = Post7,media =  paste0("img/",Sys.Date(),"_wiki.png"), 
 }
 
                  
- 
-}
-
 aujourdhui <- Sys.Date()
 maintenant<-substr(Sys.time(),12,13)
 
