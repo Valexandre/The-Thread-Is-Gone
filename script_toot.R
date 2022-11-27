@@ -9,7 +9,10 @@ library(rtoot)
 
 Virg <- function(x){ as.character( gsub("\\.",",",as.character(x)))}
 `%!in%` <- function(x,y) !(x %in% y)
-
+hashtagify<-function(texte){
+  textemodif<-stringr::str_replace_all(stringr::str_replace_all(stringr::str_to_title(stringr::str_replace_all(texte,"'"," "))," ",""),"-","")
+  return(paste0("#",textemodif))
+}
 ###########
 
 #Série 4 : recherches sur wikipedia
@@ -55,19 +58,62 @@ invisible(dev.off())
 
 
 Post1<-paste0("🇫🇷 Quelles ont été les pages les plus vues hier sur Wikipédia ? 
-1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"],"
-2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"],"
-3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"],"
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="fr"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="fr"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="fr"]),"
 
 #WikipediaCuriosite")
 
-rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = "recherches wikipedia hier")
- 
+rtoot::post_toot(status = Post1,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+
+  
+ Post2<-paste0("🇬🇧 🇺🇸 Wikipedia anglophone ?
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="en"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="en"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="en"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="en"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="en"]))
+
+rtoot::post_toot(status = Post2,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+  
+Post3<-paste0("🇩🇪 Wikipedia Outre-Rhin ?
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="de"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="de"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="de"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="de"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="de"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="de"]))
+  
+rtoot::post_toot(status = Post3,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+
+Post4<-paste0("🇮🇹 Wikipédia italien:
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="it"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="it"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="it"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="it"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="it"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="it"]))
+
+rtoot::post_toot(status = Post4,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+
+Post5<-paste0("🇪🇸 Wikipedia hispanophone :
+1.", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="es"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="es"]),"
+2.", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="es"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="es"]),"
+3.", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="es"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="es"]))
+
+rtoot::post_toot(status = Post5,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+  
+Post6<-paste0("🇵🇹 🇧🇷 Wikipédia en portugais:
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="pt"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="pt"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="pt"]))
+
+rtoot::post_toot(status = Post6,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+  
+Post7<-paste0("🇳🇱 Wikipedia en néerlandais :
+1. ", DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==1 & DonneesEuro$langue=="nl"]),"
+2. ", DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"],"  ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==2 & DonneesEuro$langue=="nl"]),"
+3. ", DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"]," ",(hashtagify(DonneesEuro$Titre[DonneesEuro$rank==3 & DonneesEuro$langue=="nl"]))
+  
+rtoot::post_toot(status = Post7,media =  paste0("img/",Sys.Date(),"_wiki.png"), alt_text = paste0("Recherches sur Wikipedia", Sys.Date()))
+}
+
                  
  
 }
 
-print("coucou")
 aujourdhui <- Sys.Date()
 maintenant<-substr(Sys.time(),12,13)
 
