@@ -5,7 +5,7 @@ name: Workflow
 # Controls when the workflow will run s
 on:
   schedule:
-  - cron:  '00 06,09 * * *'
+  - cron:  '00 06 * * *'
   push:
     branches:
       - main
