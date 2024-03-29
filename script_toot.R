@@ -27,7 +27,7 @@ SortLeTop3<-function(langue){
   PagesPlusVues<-PagesPlusVues[!grepl(":",PagesPlusVues$article),]
   PagesPlusVues<-PagesPlusVues%>%mutate(Titre=gsub("_"," ",article))
   PagesPlusVues<-PagesPlusVues%>%
-    filter(Titre%!in%c("Main Page","Pagina principale","Accueil","Hoofdpagina","Página_principal","Cookie (informatique)","Cleopatra","Cleópatra","AMBEV","Google Traduction" ))%>%
+    filter(Titre%!in%c("Main Page","Pagina principale","Accueil","Hoofdpagina","Página_principal","Cookie (informatique)","Cleopatra","Cleópatra","Cleopatra I de Egipto", "AMBEV","Google Traduction" ))%>%
     mutate(rank=row_number())%>%filter(!is.na(Titre))
   PagesPlusVues<-PagesPlusVues[1:3,1:4]
   PagesPlusVues%>%mutate(langue=langue,
